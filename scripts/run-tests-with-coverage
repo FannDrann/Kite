@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.."
+mkdir -p tests/coverage
+coverage_dir="$(mktemp -d tests/coverage/run.XXXXXXXX)"
+
+dotnet test Kite.slnx --settings tests/tests.runsettings --collect "XPlat Code Coverage" --results-directory "$coverage_dir"
+shopt -s nullglob
+reports=("$coverage_dir"/*/coverage.cobertura.xml)
+if ((${#reports[@]} == 0)); then
+    echo 'Отчёт о покрытии не найден.' >&2
+    exit 1
+fi
+
+merged="$coverage_dir/merged.cobertura.xml"
+dotnet tool run dotnet-coverage merge "${reports[@]}" --output "$merged" --output-format cobertura
+dotnet tool run reportgenerator "-reports:$merged" "-targetdir:tests/coverage-report" "-reporttypes:Html"

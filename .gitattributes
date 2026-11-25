@@ -1,0 +1,2 @@
+*.cs text eol=crlf
+scripts/run-tests-with-coverage text eol=lf

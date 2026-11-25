@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Kite.Lexing/Kite.Lexing.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Kite.Lexing.UnitTests/Kite.Lexing.UnitTests.csproj" />
+  </Folder>
+</Solution>
